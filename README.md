@@ -1,4 +1,4 @@
-# generator-frontender [![Build Status](https://secure.travis-ci.org/lancedikson/generator-frontender.png?branch=master)](https://travis-ci.org/lancedikson/generator-frontender)
+# generator-frontender
 
 A generator for [Yeoman](http://yeoman.io).
 

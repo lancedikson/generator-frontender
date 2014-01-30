@@ -10,13 +10,12 @@ module.exports = function (grunt) {
     grunt.initConfig({
         // configurable paths
         yeoman: {
-            app: 'app',
-            dist: 'dist'
+            app: 'app'
         },
         watch: {<% if (sass) { %>
             sass: {
                 files: ['<%%= yeoman.app %>/scss/{,*/}*.{scss,sass}'<% if (framework == 'foundation') { %>, '<%%= yeoman.app %>/bower_components/foundation/scss/{,*/}*.{scss,sass}'<% } %>],
-                tasks: ['sass:server'<% if (autoprefixer) { %>, 'autoprefixer'<% } %>]
+                tasks: ['sass:server'<% if (autoprefixer) { %>, 'autoprefixer:server'<% } %>]
             },<% } %>
             livereload: {
                 options: {
@@ -25,7 +24,7 @@ module.exports = function (grunt) {
                 files: [
                     '<%%= yeoman.app %>/*.html',
                     '<%%= yeoman.app %>/css/{,*/}*.css',
-                    '{.tmp,<%%= yeoman.app %>}/js/{,*/}*.js',
+                    '{<%%= yeoman.app %>}/js/{,*/}*.js',
                     '<%%= yeoman.app %>/img/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
                 ]
             }
@@ -41,52 +40,15 @@ module.exports = function (grunt) {
                 options: {
                     open: true,
                     base: [
-                        '.tmp',
-                        '<%%= yeoman.app %>'
+                        '<%%= yeoman.app %>',
+                        '<%%= yeoman.app %>/css'
                     ]
                 }
-            },
-            dist: {
-                options: {
-                    open: true,
-                    base: '<%%= yeoman.dist %>'
-                }
             }
-        },
-        clean: {
-            dist: {
-                files: [{
-                    dot: true,
-                    src: [
-                        '.tmp',
-                        '<%%= yeoman.dist %>/*',
-                        '!<%%= yeoman.dist %>/.git*'
-                    ]
-                }]
-            }
-        },
-        jshint: {
-            options: {
-                jshintrc: '.jshintrc'
-            },
-            all: [
-                'Gruntfile.js',
-                '<%%= yeoman.app %>/js/{,*/}*.js',
-                '!<%%= yeoman.app %>/js/vendor/*',
-                'test/spec/{,*/}*.js'
-            ]
         },<% if (sass) { %>
         sass: {
             options: {
                 includePaths: [<% if (framework == 'foundation') { %>'<%%= yeoman.app %>/bower_components/foundation/scss' <% } %>]
-            },
-            dist: {
-                options: {
-                    outputStyle: 'compressed'
-                },
-                files: {
-                    '<%= yeoman.app %>/css/main.css': '<%%= yeoman.app %>/scss/main.scss'
-                }
             },
             server: {
                 options: {
@@ -94,7 +56,7 @@ module.exports = function (grunt) {
                     sourceComments: 'normal'
                 },
                 files: {
-                    '<%= yeoman.app %>/css/main.css': '<%%= yeoman.app %>/scss/main.scss'
+                    '<%%= yeoman.app %>/css/main.css': '<%%= yeoman.app %>/scss/main.scss'
                 }     
             }
         },<% } %><% if (autoprefixer) { %>
@@ -102,73 +64,26 @@ module.exports = function (grunt) {
             options: {
                 browsers: ['last 1 version']
             },
-            dist: {
+            server: {
                 files: [{
                     expand: true,
-                    cwd: '<%= yeoman.app %>/css/',
+                    cwd: '<%%= yeoman.app %>/css/',
                     src: '{,*/}*.css',
-                    dest: '<%= yeoman.app %>/css/'
+                    dest: '<%%= yeoman.app %>/css/'
                 }]
             }
         },<% } %>
         svgmin: {
-            dist: {
-                files: [{
-                    expand: true,
-                    cwd: '<%%= yeoman.app %>/img',
-                    src: '{,*/}*.svg',
-                    dest: '<%%= yeoman.dist %>/img'
-                }]
-            }
-        },
-        htmlmin: {
-            dist: {
-                options: {
-                    collapseBooleanAttributes: true,
-                    collapseWhitespace: true,
-                    removeAttributeQuotes: true,
-                    removeCommentsFromCDATA: true,
-                    removeEmptyAttributes: true,
-                    removeOptionalTags: true,
-                    removeRedundantAttributes: true,
-                    useShortDoctype: true
-                },
-                files: [{
-                    expand: true,
-                    cwd: '<%%= yeoman.dist %>',
-                    src: '{,*/}*.html',
-                    dest: '<%%= yeoman.dist %>'
-                }]
-            }
-        },
-        copy: {
-            dist: {
-                files: [{
-                    expand: true,
-                    dot: true,
-                    cwd: '<%%= yeoman.app %>',
-                    dest: '<%%= yeoman.dist %>',
-                    src: [
-                        '*.{ico,png,txt}',
-                        '.htaccess',
-                        '{,*/}*.html',
-                        'img/{,*/}*.{webp,gif,png,jpg}',
-                        'fonts/{,*/}*.*'<% if (framework == 'bootstrap' && sass) { %>,
-                        'bower_components/sass-bootstrap/fonts/*.*'<% } %>
-                    ]
-                }]
-            },
-            styles: {
+            files: [{
                 expand: true,
-                dot: true,
-                cwd: '<%%= yeoman.app %>/css',
-                dest: '.tmp/css/',
-                src: '{,*/}*.css'
-            }
+                cwd: '<%%= yeoman.app %>/img',
+                src: '{,*/}*.svg',
+                dest: '<%%= yeoman.app %>/img'
+            }]
         },<% if (modernizr) { %>
         modernizr: {
             devFile: '<%%= yeoman.app %>/bower_components/modernizr/modernizr.js',
-            outputFile: '<%%= yeoman.dist %>/bower_components/modernizr/modernizr.js',
+            outputFile: '<%%= yeoman.app %>/bower_components/modernizr/modernizr.js',
             // extra : {
             //     "shiv" : true,
             //     "printshiv" : false,
@@ -177,44 +92,20 @@ module.exports = function (grunt) {
             //     "cssclasses" : true
             // },
             files: [
-                '<%%= yeoman.dist %>/js/{,*/}*.js',
-                '<%%= yeoman.dist %>/css/{,*/}*.css',
-                '!<%%= yeoman.dist %>/js/vendor/*'
+                '<%%= yeoman.app %>/js/{,*/}*.js',
+                '<%%= yeoman.app %>/css/{,*/}*.css',
+                '!<%%= yeoman.app %>/js/vendor/*'
             ],
             uglify: true
-        },<% } %>
-        concurrent: {
-            dist:[<% if (sass) { %>
-                'sass:dist',<% } %>
-                'copy:styles',
-                'svgmin'
-            ]
-        }
+        }<% } %>
     });
 
     grunt.registerTask('server', function (target) {
         grunt.task.run([<% if (sass) { %>
-            'sass',<% } %><% if (autoprefixer) { %>
-            'autoprefixer',<% } %>
+            'sass:server',<% } %><% if (autoprefixer) { %>
+            'autoprefixer:server',<% } %>
             'connect:livereload',
             'watch'
         ]);
     });
-
-    grunt.registerTask('build', [
-        'clean:dist',
-        'concurrent:dist',<% if (autoprefixer) { %>
-        'autoprefixer',<% } %>
-        'concat',
-        'cssmin',
-        'uglify',
-        'copy:dist',<% if (modernizr) { %>
-        'modernizr',<% } %>
-        'htmlmin'
-    ]);
-
-    grunt.registerTask('default', [
-        'jshint',
-        'build'
-    ]);
 };

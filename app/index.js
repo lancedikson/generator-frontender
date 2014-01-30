@@ -79,21 +79,16 @@ FrontenderGenerator.prototype.git = function git() {
 };
 
 FrontenderGenerator.prototype.projectfiles = function projectfiles() {
-  console.log("projectfiles");
   this.copy('editorconfig', '.editorconfig');
-  this.copy('jshintrc', '.jshintrc');
 };
 FrontenderGenerator.prototype.packageJSON = function packageJSON() {
-  console.log("packageJSON");
   this.template('_package.json', 'package.json');
 }
 FrontenderGenerator.prototype.gruntfile = function gruntfile() {
-  console.log("gruntfile");
   this.template('Gruntfile.js', 'Gruntfile.js');
 }
 
 FrontenderGenerator.prototype.bower = function bower() {
-  console.log("bower");
   this.template('_bower.json', 'bower.json');
   this.copy('bowerrc', '.bowerrc');
 }
@@ -147,9 +142,7 @@ FrontenderGenerator.prototype.stylesheets = function stylesheets() {
     this.template('bootstrap.scss', 'app/scss/main.scss');
   } else if (this.framework == 'foundation' && this.sass) {
     this.copy('foundation.scss', 'app/scss/main.scss');
-  } else if (this.framework == 'foundation' && !this.sass) {
-    this.indexFile = this.appendStyles(this.indexFile, '/bower_components/foundation/css/foundation.css', ["/bower_components/foundation/css/foundation.css"]);
-  }
+  } 
 };
 
 FrontenderGenerator.prototype.app = function app() {
