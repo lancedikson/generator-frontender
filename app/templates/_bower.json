@@ -1,0 +1,16 @@
+{
+  "name": "<%= _.slugify(appname) %>",
+  "version": "<%= pkg.version %>",
+  "dependencies": {<% if (framework == 'bootstrap' && sass) { %>
+    "sass-bootstrap": "~3.0.0",<% } else if (framework == 'bootstrap') {%>
+    "bootstrap": "~3.0.3", <% } %><% if (framework == 'foundation') { %>
+  	"foundation": "~5.0.3",<% } %>
+  	"jquery": "~1.10.2"<% if (modernizr) { %>,
+    "modernizr": "~2.6.2"<% } %>
+  },
+  "devDependencies": {},
+  "resolutions": {
+    "jquery": "~1.10.2"
+  }
+}
+
