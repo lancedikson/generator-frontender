@@ -66,8 +66,6 @@ FrontenderGenerator.prototype.askFor = function askFor() {
     this.modernizr = hasFeature('modernizr');
     this.autoprefixer = hasFeature('autoprefixer');
 
-    console.log(this.autoprefixer);
-
     cb();
   }.bind(this));
 };
@@ -142,7 +140,7 @@ FrontenderGenerator.prototype.stylesheets = function stylesheets() {
     this.template('bootstrap.scss', 'app/scss/main.scss');
   } else if (this.framework == 'foundation' && this.sass) {
     this.copy('foundation.scss', 'app/scss/main.scss');
-  } 
+  }
 };
 
 FrontenderGenerator.prototype.app = function app() {
