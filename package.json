@@ -1,6 +1,6 @@
 {
   "name": "generator-frontender",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A generator for Yeoman used in article from Frontender Magazine",
   "keywords": [
     "yeoman-generator"
